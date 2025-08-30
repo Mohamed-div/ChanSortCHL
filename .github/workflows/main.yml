@@ -23,10 +23,10 @@ jobs:
         uses: NuGet/setup-nuget@v1.1.0
 
       - name: Restore NuGet packages
-        run: nuget restore
+        run: nuget restore ChanSort.sln
 
       - name: Build Solution (Release)
-        run: msbuild /m /p:Configuration=Release
+        run: msbuild ChanSort.sln /m /p:Configuration=Release
 
       - name: Upload Release artifacts (bin/Release)
         uses: actions/upload-artifact@v4
