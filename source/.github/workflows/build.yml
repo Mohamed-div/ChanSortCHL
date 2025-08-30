@@ -1,0 +1,35 @@
+name: Build ChanSort with CHL support
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          vs-version: 'latest'
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.1.0
+
+      - name: Restore NuGet packages
+        run: nuget restore
+
+      - name: Build Solution (Release)
+        run: msbuild /m /p:Configuration=Release
+
+      - name: Upload Release artifacts (bin/Release)
+        uses: actions/upload-artifact@v3
+        with:
+          name: ChanSort-CHL
+          path: '**/bin/Release/**'
